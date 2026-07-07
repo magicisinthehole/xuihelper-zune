@@ -1,0 +1,10 @@
+<XUIHelperExtensions>
+
+  <XUIClassExtension version="0001" />
+  
+  <RelationalExtensions>
+    <RelationalExtension>XuiElements.xml</RelationalExtension>
+    <RelationalExtension>ZuneCustomElements.xml</RelationalExtension>
+  </RelationalExtensions>
+
+</XUIHelperExtensions>

@@ -1,0 +1,62 @@
+<XUIClassExtension version="0001">
+  <XUIClass Name="hdLabel" BaseClassName="XuiTextPresenter" Description="Zune HD hdLabel">
+  </XUIClass>
+  <XUIClass Name="hdNumber" BaseClassName="XuiTextPresenter" Description="Zune HD hdNumber">
+  </XUIClass>
+  <XUIClass Name="XuiNineGrid1" BaseClassName="XuiNineGrid" Description="Zune HD NineGrid variant">
+  </XUIClass>
+  <XUIClass Name="XuiKeyStrip" BaseClassName="XuiControl" Description="Zune HD KeyStrip">
+    <PropDef Id="241" Name="KeyCount" Type="unsigned">
+      <DefaultVal>0</DefaultVal>
+    </PropDef>
+    <PropDef Id="242" Name="Spread" Type="float">
+      <DefaultVal>0.000000</DefaultVal>
+    </PropDef>
+    <PropDef Id="243" Name="AutosizeKeys" Type="bool">
+      <DefaultVal>false</DefaultVal>
+    </PropDef>
+    <PropDef Id="244" Name="Forgiveness" Type="float">
+      <DefaultVal>0.000000</DefaultVal>
+    </PropDef>
+  </XUIClass>
+  <XUIClass Name="XuiCandidateList" BaseClassName="XuiList" Description="Zune CandidateList">
+  </XUIClass>
+  <XUIClass Name="XuiHorzCandidateList" BaseClassName="XuiCandidateList" Description="Zune HorzCandidateList">
+  </XUIClass>
+  <XUIClass Name="XuiMultilineEdit" BaseClassName="XuiControl" Description="Zune MultilineEdit">
+    <PropDef Id="227" Name="TextLimit" Type="unsigned">
+      <DefaultVal>65534</DefaultVal>
+    </PropDef>
+    <PropDef Id="228" Editor="AllowedCharactersEditor" Name="AllowedChars" Type="string">
+      <DefaultVal></DefaultVal>
+    </PropDef>
+    <PropDef Id="229" Name="PasswordChar" Type="string">
+      <DefaultVal></DefaultVal>
+    </PropDef>
+    <PropDef Id="230" Name="ReadOnly" Type="bool"></PropDef>
+    <PropDef Id="231" Name="Multiline" Type="bool"></PropDef>
+    <PropDef Id="232" Name="AllowSelection" Type="bool"></PropDef>
+    <PropDef Id="233" Name="UnfocusedCaret" Type="bool"></PropDef>
+    <PropDef Id="234" Name="AllowUndo" Type="bool"></PropDef>
+  </XUIClass>
+  <XUIClass Name="XuiMultilineTextPresenter" BaseClassName="XuiTextPresenter" Description="Zune MultilineTextPresenter">
+    <PropDef Id="235" Name="SelectForeground" Type="color">
+      <DefaultVal>0xff000000</DefaultVal>
+    </PropDef>
+    <PropDef Id="236" Name="SelectBackground" Type="color">
+      <DefaultVal>0xff000000</DefaultVal>
+    </PropDef>
+    <PropDef Id="237" Name="IMEForeground" Type="color">
+      <DefaultVal>0xff000000</DefaultVal>
+    </PropDef>
+    <PropDef Id="238" Name="IMEBackground" Type="color">
+      <DefaultVal>0xff000000</DefaultVal>
+    </PropDef>
+    <PropDef Id="239" Name="IMEConvertedForeground" Type="color">
+      <DefaultVal>0xff000000</DefaultVal>
+    </PropDef>
+    <PropDef Id="240" Name="IMEConvertedBackground" Type="color">
+      <DefaultVal>0xff000000</DefaultVal>
+    </PropDef>
+  </XUIClass>
+</XUIClassExtension>

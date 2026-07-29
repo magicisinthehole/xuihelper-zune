@@ -10,14 +10,12 @@ writer bugs that prevented byte-exact recompilation.
 
 ## Status
 
-The full 195-file Zune HD v4.5 firmware corpus round-trips:
+The full 196-file Zune HD v4.5 firmware corpus round-trips:
 
-- **Decompile (`.xur` to `.xui`):** 195/195 with zero warnings or errors. Every
+- **Decompile (`.xur` to `.xui`):** 196/196 with zero warnings or errors. Every
   class is runtime-verified against device memory; there are no parser fallbacks.
-- **Recompile (`.xui` to `.xur`):** 189/195 byte-identical, 6/195 byte-different
-  but semantically identical (VECT5/QUAT5 lookup-table indices reorder on rebuild;
-  the values resolve through the index, so the device renders identical pixels),
-  0/195 data corruption.
+- **Recompile (`.xui` to `.xur`):** 196/196 byte-identical, 0 failures.
+
 
 ## Build
 
@@ -62,8 +60,9 @@ The V5 schema is rebuilt from Zune HD's runtime property-definition tables:
 
 ### 3. Byte-exact recompile fixes
 
-Three writer bugs corrupted round-tripped output; all are Xbox-360 conventions
-that differ on Zune HD:
+Five writer bugs corrupted round-tripped output. The first three are Xbox-360
+conventions that differ on Zune HD; the last two are format bugs that affect any
+platform:
 
 - **EaseScale default** (`XUI12ReadExtensions.cs`): the reader hard-coded 50
   (Xbox 360), but Zune HD uses 0. Linear keyframes with `EaseScale=0` lost the
@@ -82,6 +81,25 @@ that differ on Zune HD:
   emits UTF-16 BE) used `BinaryWriter.Write(char)`, applying the writer's UTF-8
   encoding. Non-ASCII characters became 2-byte UTF-8 sequences after the 0x00 high
   byte, misaligning the stream. Switched to explicit `Encoding.BigEndianUnicode`.
+- **Property values written in authored order** (`DATA5Section.cs`): values were
+  emitted in whatever order the `.xui` listed them, but the presence mask above
+  them is built by walking `PropertyDefinitions`, and the reader consumes the
+  values in that same definition order. A scene authoring properties in any other
+  order therefore had its values assigned to the wrong definitions, silently: an
+  element written `Hittable` then `Opacity` came back with `Opacity=0` (from
+  `false`) and `Hittable=true` (from `0.85`), so it rendered nothing and swallowed
+  touches. Stock scenes never expose it because they are already in definition
+  order, which also means a round-trip test over the firmware corpus cannot catch
+  it. Values are now sorted into definition order before writing.
+- **Float precision** (`XUI12WriteExtensions.cs`): floats were written with a
+  fixed `"0.000000"`, which cannot represent every float32. A stored value need
+  not be the nearest float to its own six-decimal print: `Start.xur`'s `topFade`
+  Pivot holds `0x3986000A`, and `0.000256` parses back to `0x398637BD`. A float32
+  needs up to 9 significant decimal digits to survive a text round trip, so all
+  float, vector, quaternion and bezier writes now use `"R"`, the shortest form
+  that is exact. This is what closed the last 6 byte-different files, which were
+  the same loss inside VECT5/QUAT5 entries rather than an index-ordering quirk as
+  previously assumed.
 
 ## How the schema was derived
 

@@ -546,7 +546,13 @@ namespace XUIHelper.Core
                     writer.Write(propertyMasks);
                     bytesWritten += propertyMasks.Length;
 
-                    foreach (XUProperty property in classProperties[xuClass])
+                    /* The mask above is built by walking PropertyDefinitions, and the
+                       reader consumes the values in that same definition order, so the
+                       values must be emitted in it too. Authored order is whatever the
+                       .xui happened to list, and taking it verbatim silently assigns
+                       each value to the wrong definition. */
+                    foreach (XUProperty property in classProperties[xuClass]
+                                 .OrderBy(p => xuClass.PropertyDefinitions.IndexOf(p.PropertyDefinition)))
                     {
                         xur.Logger?.Here().Verbose("Writing {0} property.", property.PropertyDefinition.Name);
                         int? propertyBytesWritten = xur.TryWriteProperty(writer, property, property.Value);

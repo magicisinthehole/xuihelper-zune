@@ -16,10 +16,7 @@ The full 195-file Zune HD v4.5 firmware corpus round-trips:
 
 - **Decompile (`.xur` to `.xui`):** 195/195, zero warnings or errors. Every class
   is runtime-verified against device memory; there are no parser fallbacks.
-- **Recompile (`.xui` to `.xur`):** 189/195 byte-identical, 6/195 byte-different
-  but semantically identical (VECT5/QUAT5 lookup-table indices reorder on rebuild;
-  the values resolve through the index, so the device renders identical pixels),
-  0/195 data corruption.
+- **Recompile (`.xui` to `.xur`):** 195/195 byte-identical.
 
 See [`ZUNE-PATCHES.md`](ZUNE-PATCHES.md) for the full list of changes from upstream
 and how the schema was derived.

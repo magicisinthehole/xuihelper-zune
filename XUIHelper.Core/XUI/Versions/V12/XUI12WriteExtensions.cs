@@ -13,6 +13,16 @@ namespace XUIHelper.Core
 {
     public static class XUR12WriteExtensions
     {
+
+        /// <summary>
+        /// Formats a float for XUI text. A float32 needs at most 9 significant
+        /// decimal digits to survive a text round trip, and "R" emits the shortest
+        /// form that does.
+        /// </summary>
+        private static string FormatFloat(float value)
+        {
+            return value.ToString("R", System.Globalization.CultureInfo.InvariantCulture);
+        }
         public static List<XElement>? TryWriteProperty(this XUI12 xui, XUProperty property)
         {
             try
@@ -241,7 +251,7 @@ namespace XUIHelper.Core
                 XElement retElement = new XElement(propertyDefinition.Name);
 
                 xui.Logger?.Here().Verbose("Writing float property {0} with value {1}", propertyDefinition.Name, val);
-                retElement.Value = Convert.ToDouble(val).ToString("0.000000");
+                retElement.Value = FormatFloat(Convert.ToSingle(val));
                 return retElement;
             }
             catch (Exception ex)
@@ -273,9 +283,9 @@ namespace XUIHelper.Core
 
                 retElement.Value = string.Join(",", new List<string>()
                 {
-                    ((double)vect.X).ToString("0.000000"),
-                    ((double)vect.Y).ToString("0.000000"),
-                    ((double)vect.Z).ToString("0.000000")
+                    FormatFloat(vect.X),
+                    FormatFloat(vect.Y),
+                    FormatFloat(vect.Z)
                 }).TrimEnd();
 
                 return retElement;
@@ -380,17 +390,17 @@ namespace XUIHelper.Core
                 retElement.Value += ",";
                 foreach(XUBezierPoint bezierPoint in figure.Points) 
                 {
-                    retElement.Value += ((double)bezierPoint.Point.X).ToString("0.000000");
+                    retElement.Value += FormatFloat(bezierPoint.Point.X);
                     retElement.Value += ",";
-                    retElement.Value += ((double)bezierPoint.Point.Y).ToString("0.000000");
+                    retElement.Value += FormatFloat(bezierPoint.Point.Y);
                     retElement.Value += ",";
-                    retElement.Value += ((double)bezierPoint.ControlPointOne.X).ToString("0.000000");
+                    retElement.Value += FormatFloat(bezierPoint.ControlPointOne.X);
                     retElement.Value += ",";
-                    retElement.Value += ((double)bezierPoint.ControlPointOne.Y).ToString("0.000000");
+                    retElement.Value += FormatFloat(bezierPoint.ControlPointOne.Y);
                     retElement.Value += ",";
-                    retElement.Value += ((double)bezierPoint.ControlPointTwo.X).ToString("0.000000");
+                    retElement.Value += FormatFloat(bezierPoint.ControlPointTwo.X);
                     retElement.Value += ",";
-                    retElement.Value += ((double)bezierPoint.ControlPointTwo.Y).ToString("0.000000");
+                    retElement.Value += FormatFloat(bezierPoint.ControlPointTwo.Y);
                     retElement.Value += ",";
                     retElement.Value += "0";
                     retElement.Value += ",";
@@ -427,10 +437,10 @@ namespace XUIHelper.Core
 
                 retElement.Value = string.Join(",", new List<string>()
                 {
-                    quat.X.ToString("0.000000"),
-                    quat.Y.ToString("0.000000"),
-                    quat.Z.ToString("0.000000"),
-                    quat.W.ToString("0.000000")
+                    FormatFloat(quat.X),
+                    FormatFloat(quat.Y),
+                    FormatFloat(quat.Z),
+                    FormatFloat(quat.W)
                 }).TrimEnd();
 
                 return retElement;
